@@ -1812,7 +1812,7 @@ void main() {
       expect(tester.getSize(find.byType(Placeholder)).width, 640);
     });
 
-    testWidgets('No constraints by default for bottomSheet property', (WidgetTester tester) async {
+    testWidgetsWithLeakTracking('No constraints by default for bottomSheet property', (WidgetTester tester) async {
       await tester.pumpWidget(MaterialApp(
         theme: ThemeData(useMaterial3: false),
         home: const Scaffold(
