@@ -835,8 +835,12 @@ void main() {
     expect(isSync, isTrue);
   });
 
-  void printImage(ImageInfo image, dynamic tag) {
-    print('printImage called');
+  void printImage(Image image, dynamic tag) {
+    print('!!! $tag: ${identityHashCode(image)}');
+  }
+
+  void printInfo(ImageInfo info, dynamic tag) {
+    print('!!! $tag: ${identityHashCode(info)}, ${identityHashCode(info.image)}');
   }
 
   testWidgets('Precache removes original listener immediately after future completes, does not crash on successive calls #25143',
