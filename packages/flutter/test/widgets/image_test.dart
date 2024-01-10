@@ -37,6 +37,10 @@ void main() {
     imageCache.maximumSize = originalCacheSize;
   });
 
+  tearDownAll(() {
+    clearTestImageCache();
+  });
+
   testWidgets('Verify Image does not use disposed handles', (WidgetTester tester) async {
     final ui.Image image100x100 = (await tester.runAsync(() async => createTestImage(width: 100, height: 100)))!;
 
@@ -806,8 +810,8 @@ void main() {
   });
 
   testWidgets('Precache',
-  // TODO(polina-c): clean up leaks, https://github.com/flutter/flutter/issues/134787
-  experimentalLeakTesting: LeakTesting.settings.withIgnoredAll(),
+  // // TODO(polina-c): clean up leaks, https://github.com/flutter/flutter/issues/134787
+  // ??? experimentalLeakTesting: LeakTesting.settings.withIgnoredAll(),
   (WidgetTester tester) async {
     final _TestImageProvider provider = _TestImageProvider();
     late Future<void> precache;
@@ -820,6 +824,7 @@ void main() {
       ),
     );
     provider.complete(image10x10);
+    addTearDown(image10x10.dispose);
     await precache;
     expect(provider._lastResolvedConfiguration, isNotNull);
 
@@ -829,6 +834,10 @@ void main() {
     stream.addListener(ImageStreamListener((ImageInfo image, bool sync) { isSync = sync; }));
     expect(isSync, isTrue);
   });
+
+  void printImage(ImageInfo image, dynamic tag) {
+    print('printImage called');
+  }
 
   testWidgets('Precache removes original listener immediately after future completes, does not crash on successive calls #25143',
   // TODO(polina-c): clean up leaks, https://github.com/flutter/flutter/issues/134787
