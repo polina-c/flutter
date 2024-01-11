@@ -44,6 +44,14 @@ Future<ui.Image> createTestImage({
   return image;
 });
 
+/// Clears the image cache created by [createTestImage].
+void clearTestImageCache() {
+  for (final ui.Image image in _cache.values) {
+    image.dispose();
+  }
+  _cache.clear();
+}
+
 Future<ui.Image> _createImage(int width, int height) async {
   final Completer<ui.Image> completer = Completer<ui.Image>();
   ui.decodeImageFromPixels(
