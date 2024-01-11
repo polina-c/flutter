@@ -39,6 +39,7 @@ void main() {
 
   tearDownAll(() {
     clearTestImageCache();
+    image10x10.dispose();
   });
 
   testWidgets('Verify Image does not use disposed handles', (WidgetTester tester) async {
@@ -809,13 +810,7 @@ void main() {
     expect(renderer.opacity, opacity);
   });
 
-  void printImage(Image image, dynamic tag) {
-    print('!!! $tag: ${identityHashCode(image)}');
-  }
 
-  void printInfo(ImageInfo info, dynamic tag) {
-    print('!!! $tag: ${identityHashCode(info)}, ${identityHashCode(info.image)}');
-  }
 
   testWidgets('empty',
   (WidgetTester tester) async {
@@ -823,7 +818,8 @@ void main() {
 
   testWidgets('Precache',
   // // TODO(polina-c): clean up leaks, https://github.com/flutter/flutter/issues/134787
-  // ??? experimentalLeakTesting: LeakTesting.settings.withIgnoredAll(),
+  // ????
+  experimentalLeakTesting: LeakTesting.settings.withCreationStackTrace(),
   (WidgetTester tester) async {
     final _TestImageProvider provider = _TestImageProvider();
     late Future<void> precache;
@@ -836,6 +832,7 @@ void main() {
       ),
     );
     provider.complete(image10x10);
+    printUiImage(image10x10, 111);
     // await precache;
     // expect(provider._lastResolvedConfiguration, isNotNull);
 
@@ -2019,8 +2016,10 @@ void main() {
     await tester.pump();
     expect(find.byKey(errorKey), findsOneWidget);
 
+    final imageInfo = ImageInfo(image: image);
+    addTearDown(imageInfo.dispose);
     // Loading good image shows the image widget instead of the error widget.
-    streamCompleter.setData(imageInfo: ImageInfo(image: image));
+    streamCompleter.setData(imageInfo: imageInfo);
     await tester.pump();
     expect(find.byType(Padding), findsOneWidget);
     expect(tester.widget<Padding>(find.byType(Padding)).child, isA<RawImage>());
@@ -2140,8 +2139,10 @@ class _TestImageProvider extends ImageProvider<Object> {
   }
 
   void complete(ui.Image image) {
-    final result = ImageInfo(image: image);
+    final ImageInfo result = ImageInfo(image: image);
+    printInfo(result, 222);
     addTearDown(result.dispose);
+    addTearDown(image.dispose);
     _completer.complete(result);
   }
 
@@ -2162,8 +2163,14 @@ class _TestImageStreamCompleter extends ImageStreamCompleter {
   @override
   void addListener(ImageStreamListener listener) {
     listeners.add(listener);
-    if (_currentImage != null) {
-      listener.onImage(_currentImage!.clone(), true);
+    _cloneToListener(_currentImage, listener, true);
+  }
+
+  void _cloneToListener(ImageInfo? imageInfo, ImageStreamListener listener, bool synchronousCall) {
+    if (imageInfo != null) {
+      final ImageInfo result = _currentImage!.clone();
+      addTearDown(result.dispose);
+      listener.onImage(result, synchronousCall);
     }
   }
 
@@ -2182,9 +2189,7 @@ class _TestImageStreamCompleter extends ImageStreamCompleter {
     }
     final List<ImageStreamListener> localListeners = listeners.toList();
     for (final ImageStreamListener listener in localListeners) {
-      if (imageInfo != null) {
-        listener.onImage(imageInfo.clone(), false);
-      }
+      _cloneToListener(imageInfo, listener, false);
       if (chunkEvent != null && listener.onChunk != null) {
         listener.onChunk!(chunkEvent);
       }
@@ -2255,13 +2260,24 @@ class _FailingImageProvider extends ImageProvider<int> {
     if (failOnLoad) {
       throw throws;
     }
+
+    final ImageInfo result = ImageInfo(image: image, scale: 0);
+    addTearDown(result.dispose);
+
     return OneFrameImageStreamCompleter(
-      Future<ImageInfo>.value(
-        ImageInfo(
-          image: image,
-          scale: 0,
-        ),
-      ),
+      Future<ImageInfo>.value(result),
     );
   }
 }
+
+  void printImage(Image image, dynamic tag) {
+    print('!!! $tag: ${identityHashCode(image)}');
+  }
+
+  void printUiImage(ui.Image image, dynamic tag) {
+    print('!!! $tag: ${identityHashCode(image)}');
+  }
+
+  void printInfo(ImageInfo info, dynamic tag) {
+    print('!!! $tag: ${identityHashCode(info)}, ${identityHashCode(info.image)}');
+  }
