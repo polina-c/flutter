@@ -8,7 +8,7 @@ import 'dart:ui' as ui show Codec, FrameInfo, Image;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/scheduler.dart';
 
-const String _flutterWidgetsLibrary = 'package:flutter/widgets.dart';
+const String _flutterPaintingLibrary = 'package:flutter/painting.dart';
 
 /// A [dart:ui.Image] object with its corresponding scale.
 ///
@@ -23,11 +23,21 @@ class ImageInfo {
   /// Creates an [ImageInfo] object for the given [image] and [scale].
   ///
   /// The [debugLabel] may be used to identify the source of this image.
-  const ImageInfo({ required ui.Image image, double scale = 1.0, String? debugLabel })
-    : this._(image: image, scale: scale, debugLabel: debugLabel);
-
-  const ImageInfo._({ required this.image, this.scale = 1.0, this.debugLabel, bool disposeImage = false })
-    : _disposeImage = disposeImage;
+  ImageInfo({
+    required this.image,
+    this.scale = 1.0,
+    this.debugLabel,
+    this.shouldDisposeImage = true, // The default is true for backwards compatibility.
+  })
+  {
+    if (kFlutterMemoryAllocationsEnabled && shouldDisposeImage) {
+      MemoryAllocations.instance.dispatchObjectCreated(
+        library: _flutterPaintingLibrary,
+        className: '$ImageInfo',
+        object: this,
+      );
+    }
+  }
 
   /// Creates an [ImageInfo] with a cloned [image].
   ///
@@ -48,15 +58,12 @@ class ImageInfo {
   ///
   ///  * [Image.clone], which describes how and why to clone images.
   ImageInfo clone() {
-    return ImageInfo._(
+    return ImageInfo(
       image: image.clone(),
       scale: scale,
       debugLabel: debugLabel,
-      disposeImage: true,
     );
   }
-
-  final bool _disposeImage;
 
   /// Whether this [ImageInfo] is a [clone] of the `other`.
   ///
@@ -107,6 +114,15 @@ class ImageInfo {
   /// the image.
   final ui.Image image;
 
+  /// If true, the [image] will be disposed when this object is disposed.
+  ///
+  /// If false, the object will not dispatch its lifecicle events to [FlutterMemoryAllocations].
+  ///
+  /// This is used to:
+  /// * avoid disposing the [image] when it is owned by other object (when false)
+  /// * transfer the [image] ownership to this object (when true)
+  final bool shouldDisposeImage;
+
   /// The size of raw image pixels in bytes.
   int get sizeBytes => image.height * image.width * 4;
 
@@ -132,8 +148,11 @@ class ImageInfo {
   /// and no clones of it or the image it contains can be made.
   void dispose() {
     assert((image.debugGetOpenHandleStackTraces()?.length ?? 1) > 0);
-    if (_disposeImage) {
+    if (shouldDisposeImage) {
       image.dispose();
+    }
+    if (kFlutterMemoryAllocationsEnabled) {
+      MemoryAllocations.instance.dispatchObjectDisposed(object: this);
     }
   }
 
@@ -452,7 +471,7 @@ class ImageStreamCompleterHandle {
     // https://github.com/flutter/flutter/issues/137435
     if (kFlutterMemoryAllocationsEnabled) {
       FlutterMemoryAllocations.instance.dispatchObjectCreated(
-        library: _flutterWidgetsLibrary,
+        library: _flutterPaintingLibrary,
         className: '$ImageStreamCompleterHandle',
         object: this,
       );
