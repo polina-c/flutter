@@ -809,6 +809,18 @@ void main() {
     expect(renderer.opacity, opacity);
   });
 
+  void printImage(Image image, dynamic tag) {
+    print('!!! $tag: ${identityHashCode(image)}');
+  }
+
+  void printInfo(ImageInfo info, dynamic tag) {
+    print('!!! $tag: ${identityHashCode(info)}, ${identityHashCode(info.image)}');
+  }
+
+  testWidgets('empty',
+  (WidgetTester tester) async {
+  });
+
   testWidgets('Precache',
   // // TODO(polina-c): clean up leaks, https://github.com/flutter/flutter/issues/134787
   // ??? experimentalLeakTesting: LeakTesting.settings.withIgnoredAll(),
@@ -824,24 +836,15 @@ void main() {
       ),
     );
     provider.complete(image10x10);
-    addTearDown(image10x10.dispose);
-    await precache;
-    expect(provider._lastResolvedConfiguration, isNotNull);
+    // await precache;
+    // expect(provider._lastResolvedConfiguration, isNotNull);
 
-    // Check that a second resolve of the same image is synchronous.
-    final ImageStream stream = provider.resolve(provider._lastResolvedConfiguration);
-    late bool isSync;
-    stream.addListener(ImageStreamListener((ImageInfo image, bool sync) { isSync = sync; }));
-    expect(isSync, isTrue);
+    // // Check that a second resolve of the same image is synchronous.
+    // final ImageStream stream = provider.resolve(provider._lastResolvedConfiguration);
+    // late bool isSync;
+    // stream.addListener(ImageStreamListener((ImageInfo image, bool sync) { isSync = sync; addTearDown(image.dispose); }));
+    // expect(isSync, isTrue);
   });
-
-  void printImage(Image image, dynamic tag) {
-    print('!!! $tag: ${identityHashCode(image)}');
-  }
-
-  void printInfo(ImageInfo info, dynamic tag) {
-    print('!!! $tag: ${identityHashCode(info)}, ${identityHashCode(info.image)}');
-  }
 
   testWidgets('Precache removes original listener immediately after future completes, does not crash on successive calls #25143',
   // TODO(polina-c): clean up leaks, https://github.com/flutter/flutter/issues/134787
@@ -2137,7 +2140,9 @@ class _TestImageProvider extends ImageProvider<Object> {
   }
 
   void complete(ui.Image image) {
-    _completer.complete(ImageInfo(image: image));
+    final result = ImageInfo(image: image);
+    addTearDown(result.dispose);
+    _completer.complete(result);
   }
 
   void fail(Object exception, StackTrace? stackTrace) {

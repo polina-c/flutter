@@ -23,7 +23,11 @@ class ImageInfo {
   /// Creates an [ImageInfo] object for the given [image] and [scale].
   ///
   /// The [debugLabel] may be used to identify the source of this image.
-  const ImageInfo({ required this.image, this.scale = 1.0, this.debugLabel });
+  const ImageInfo({ required ui.Image image, double scale = 1.0, String? debugLabel })
+    : this._(image: image, scale: scale, debugLabel: debugLabel);
+
+  const ImageInfo._({ required this.image, this.scale = 1.0, this.debugLabel, bool disposeImage = false })
+    : _disposeImage = disposeImage;
 
   /// Creates an [ImageInfo] with a cloned [image].
   ///
@@ -44,12 +48,15 @@ class ImageInfo {
   ///
   ///  * [Image.clone], which describes how and why to clone images.
   ImageInfo clone() {
-    return ImageInfo(
+    return ImageInfo._(
       image: image.clone(),
       scale: scale,
       debugLabel: debugLabel,
+      disposeImage: true,
     );
   }
+
+  final bool _disposeImage;
 
   /// Whether this [ImageInfo] is a [clone] of the `other`.
   ///
@@ -125,7 +132,9 @@ class ImageInfo {
   /// and no clones of it or the image it contains can be made.
   void dispose() {
     assert((image.debugGetOpenHandleStackTraces()?.length ?? 1) > 0);
-    image.dispose();
+    if (_disposeImage) {
+      image.dispose();
+    }
   }
 
   @override
