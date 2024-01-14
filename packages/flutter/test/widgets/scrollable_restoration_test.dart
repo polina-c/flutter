@@ -282,7 +282,10 @@ void main() {
     await pageViewScrollAndRestore(tester);
   });
 
-  testWidgets('PageView.builder restoration', (WidgetTester tester) async {
+  testWidgets('PageView.builder restoration',
+  // TODO(polina-c): clean up leaks, https://github.com/flutter/flutter/issues/134787
+  experimentalLeakTesting: LeakTesting.settings.withIgnoredAll(),
+  (WidgetTester tester) async {
     await tester.pumpWidget(
       TestHarness(
         child: PageView.builder(
