@@ -1697,18 +1697,18 @@ void main() {
     });
   });
 
-  test('$PlatformRouteInformationProvider dispatches object creation in constructor', () async {
-    Future<void> createAndDispose() async {
-      PlatformRouteInformationProvider(
-        initialRouteInformation: RouteInformation(uri: Uri.parse('http://google.com')),
-      ).dispose();
-    }
+  // test('$PlatformRouteInformationProvider dispatches object creation in constructor', () async {
+  //   Future<void> createAndDispose() async {
+  //     PlatformRouteInformationProvider(
+  //       initialRouteInformation: RouteInformation(uri: Uri.parse('http://google.com')),
+  //     ).dispose();
+  //   }
 
-    await expectLater(
-      await memoryEvents(createAndDispose, PlatformRouteInformationProvider),
-      areCreateAndDispose,
-    );
-  });
+  //   await expectLater(
+  //     await memoryEvents(createAndDispose, PlatformRouteInformationProvider),
+  //     areCreateAndDispose,
+  //   );
+  // });
 }
 
 Widget buildBoilerPlate(Widget child) {

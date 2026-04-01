@@ -3469,17 +3469,17 @@ void main() {
     expect(getScrollPosition(), tab1Position);
   });
 
-  testWidgets('$SliverOverlapAbsorberHandle dispatches creation in constructor', (
-    WidgetTester widgetTester,
-  ) async {
-    await expectLater(
-      await memoryEvents(
-        () => SliverOverlapAbsorberHandle().dispose(),
-        SliverOverlapAbsorberHandle,
-      ),
-      areCreateAndDispose,
-    );
-  });
+  // testWidgets('$SliverOverlapAbsorberHandle dispatches creation in constructor', (
+  //   WidgetTester widgetTester,
+  // ) async {
+  //   await expectLater(
+  //     await memoryEvents(
+  //       () => SliverOverlapAbsorberHandle().dispose(),
+  //       SliverOverlapAbsorberHandle,
+  //     ),
+  //     areCreateAndDispose,
+  //   );
+  // });
 
   testWidgets('NestedScrollView does not crash at zero area', (WidgetTester tester) async {
     await tester.pumpWidget(

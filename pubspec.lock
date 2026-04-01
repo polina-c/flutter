@@ -869,7 +869,7 @@ packages:
       path: "../genui/packages/ui_primitives"
       relative: true
     source: path
-    version: "0.0.1-dev-006"
+    version: "0.0.1-dev-008"
   url_launcher:
     dependency: "direct main"
     description:

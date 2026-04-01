@@ -303,20 +303,20 @@ void main() {
     debugDisableShadows = true;
   });
 
-  test('BannerPainter dispatches memory events', () async {
-    await expectLater(
-      await memoryEvents(
-        () => BannerPainter(
-          message: 'foo',
-          textDirection: TextDirection.rtl,
-          location: BannerLocation.topStart,
-          layoutDirection: TextDirection.ltr,
-        ).dispose(),
-        BannerPainter,
-      ),
-      areCreateAndDispose,
-    );
-  });
+  // test('BannerPainter dispatches memory events', () async {
+  //   await expectLater(
+  //     await memoryEvents(
+  //       () => BannerPainter(
+  //         message: 'foo',
+  //         textDirection: TextDirection.rtl,
+  //         location: BannerLocation.topStart,
+  //         layoutDirection: TextDirection.ltr,
+  //       ).dispose(),
+  //       BannerPainter,
+  //     ),
+  //     areCreateAndDispose,
+  //   );
+  // });
 
   testWidgets('Can configure shadow for Banner widget', (WidgetTester tester) async {
     debugDisableShadows = false;

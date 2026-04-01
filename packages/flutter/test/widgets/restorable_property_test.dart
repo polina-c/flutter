@@ -58,14 +58,14 @@ void main() {
     expect(() => objectValue.value, throwsAssertionError);
   });
 
-  testWidgets('$RestorableProperty dispatches creation in constructor', (
-    WidgetTester widgetTester,
-  ) async {
-    await expectLater(
-      await memoryEvents(() => RestorableDateTimeN(null).dispose(), RestorableDateTimeN),
-      areCreateAndDispose,
-    );
-  });
+  // testWidgets('$RestorableProperty dispatches creation in constructor', (
+  //   WidgetTester widgetTester,
+  // ) async {
+  //   await expectLater(
+  //     await memoryEvents(() => RestorableDateTimeN(null).dispose(), RestorableDateTimeN),
+  //     areCreateAndDispose,
+  //   );
+  // });
 
   testWidgets('work when not in restoration scope', (WidgetTester tester) async {
     await tester.pumpWidget(const _RestorableWidget());

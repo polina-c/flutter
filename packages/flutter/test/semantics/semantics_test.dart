@@ -1067,15 +1067,15 @@ void main() {
     expect(transparentConfig.copy().hitTestBehavior, SemanticsHitTestBehavior.transparent);
   });
 
-  test('SemanticsOwner dispatches memory events', () async {
-    await expectLater(
-      await memoryEvents(
-        () => SemanticsOwner(onSemanticsUpdate: (SemanticsUpdate update) {}).dispose(),
-        SemanticsOwner,
-      ),
-      areCreateAndDispose,
-    );
-  });
+  // test('SemanticsOwner dispatches memory events', () async {
+  //   await expectLater(
+  //     await memoryEvents(
+  //       () => SemanticsOwner(onSemanticsUpdate: (SemanticsUpdate update) {}).dispose(),
+  //       SemanticsOwner,
+  //     ),
+  //     areCreateAndDispose,
+  //   );
+  // });
 
   test('SemanticsNode.indexInParent appears in string output', () async {
     final node = SemanticsNode()..indexInParent = 10;

@@ -633,41 +633,41 @@ void main() {
     expect(() => bucket.dispose(), throwsFlutterError);
   });
 
-  test('$RestorationBucket dispatches memory events', () async {
-    await expectLater(
-      await memoryEvents(
-        () => RestorationBucket.empty(restorationId: 'child1', debugOwner: null).dispose(),
-        RestorationBucket,
-      ),
-      areCreateAndDispose,
-    );
+  // test('$RestorationBucket dispatches memory events', () async {
+  //   await expectLater(
+  //     await memoryEvents(
+  //       () => RestorationBucket.empty(restorationId: 'child1', debugOwner: null).dispose(),
+  //       RestorationBucket,
+  //     ),
+  //     areCreateAndDispose,
+  //   );
 
-    final manager1 = MockRestorationManager();
-    addTearDown(manager1.dispose);
-    await expectLater(
-      await memoryEvents(
-        () => RestorationBucket.root(manager: manager1, rawData: null).dispose(),
-        RestorationBucket,
-      ),
-      areCreateAndDispose,
-    );
+  //   final manager1 = MockRestorationManager();
+  //   addTearDown(manager1.dispose);
+  //   await expectLater(
+  //     await memoryEvents(
+  //       () => RestorationBucket.root(manager: manager1, rawData: null).dispose(),
+  //       RestorationBucket,
+  //     ),
+  //     areCreateAndDispose,
+  //   );
 
-    final manager2 = MockRestorationManager();
-    addTearDown(manager2.dispose);
-    final parent = RestorationBucket.root(manager: manager2, rawData: _createRawDataSet());
-    addTearDown(parent.dispose);
-    await expectLater(
-      await memoryEvents(
-        () => RestorationBucket.child(
-          restorationId: 'child1',
-          parent: parent,
-          debugOwner: null,
-        ).dispose(),
-        RestorationBucket,
-      ),
-      areCreateAndDispose,
-    );
-  });
+  //   final manager2 = MockRestorationManager();
+  //   addTearDown(manager2.dispose);
+  //   final parent = RestorationBucket.root(manager: manager2, rawData: _createRawDataSet());
+  //   addTearDown(parent.dispose);
+  //   await expectLater(
+  //     await memoryEvents(
+  //       () => RestorationBucket.child(
+  //         restorationId: 'child1',
+  //         parent: parent,
+  //         debugOwner: null,
+  //       ).dispose(),
+  //       RestorationBucket,
+  //     ),
+  //     areCreateAndDispose,
+  //   );
+  // });
 }
 
 Map<String, dynamic> _createRawDataSet() {

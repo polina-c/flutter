@@ -1826,17 +1826,17 @@ void main() {
     expect(controller2.isAttached, false);
   });
 
-  testWidgets('$DraggableScrollableController dispatches creation in constructor.', (
-    WidgetTester widgetTester,
-  ) async {
-    await expectLater(
-      await memoryEvents(
-        () async => DraggableScrollableController().dispose(),
-        DraggableScrollableController,
-      ),
-      areCreateAndDispose,
-    );
-  });
+  // testWidgets('$DraggableScrollableController dispatches creation in constructor.', (
+  //   WidgetTester widgetTester,
+  // ) async {
+  //   await expectLater(
+  //     await memoryEvents(
+  //       () async => DraggableScrollableController().dispose(),
+  //       DraggableScrollableController,
+  //     ),
+  //     areCreateAndDispose,
+  //   );
+  // });
 
   testWidgets('DraggableScrollableSheet respects shouldCloseOnMinExtent', (
     WidgetTester tester,

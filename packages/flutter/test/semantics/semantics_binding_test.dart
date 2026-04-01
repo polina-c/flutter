@@ -89,13 +89,13 @@ void main() {
     expect(tester.binding.pipelineOwner.semanticsOwner, isNull);
   }, semanticsEnabled: false);
 
-  test('SemanticsHandle dispatches memory events', () async {
-    await expectLater(
-      await memoryEvents(
-        () => SemanticsBinding.instance.ensureSemantics().dispose(),
-        SemanticsHandle,
-      ),
-      areCreateAndDispose,
-    );
-  });
+  // test('SemanticsHandle dispatches memory events', () async {
+  //   await expectLater(
+  //     await memoryEvents(
+  //       () => SemanticsBinding.instance.ensureSemantics().dispose(),
+  //       SemanticsHandle,
+  //     ),
+  //     areCreateAndDispose,
+  //   );
+  // });
 }

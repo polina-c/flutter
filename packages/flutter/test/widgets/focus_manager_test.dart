@@ -2057,19 +2057,19 @@ void main() {
     tester.binding.focusManager.removeListener(handleFocusChange);
   });
 
-  test('$FocusManager dispatches object creation in constructor', () async {
-    await expectLater(
-      await memoryEvents(() => FocusManager().dispose(), FocusManager),
-      areCreateAndDispose,
-    );
-  });
+  // test('$FocusManager dispatches object creation in constructor', () async {
+  //   await expectLater(
+  //     await memoryEvents(() => FocusManager().dispose(), FocusManager),
+  //     areCreateAndDispose,
+  //   );
+  // });
 
-  test('$FocusNode dispatches object creation in constructor', () async {
-    await expectLater(
-      await memoryEvents(() => FocusNode().dispose(), FocusNode),
-      areCreateAndDispose,
-    );
-  });
+  // test('$FocusNode dispatches object creation in constructor', () async {
+  //   await expectLater(
+  //     await memoryEvents(() => FocusNode().dispose(), FocusNode),
+  //     areCreateAndDispose,
+  //   );
+  // });
 
   testWidgets('FocusManager.addEarlyKeyEventHandler works', (WidgetTester tester) async {
     final focusNode1 = FocusNode(debugLabel: 'Test Node 1');

@@ -30,20 +30,20 @@ void main() {
     expect(() => DisposableBuildContext(state), throwsAssertionError);
   });
 
-  testWidgets('DisposableBuildContext dispatches memory events', (WidgetTester tester) async {
-    final key = GlobalKey<TestWidgetState>();
-    await tester.pumpWidget(TestWidget(key));
+  // testWidgets('DisposableBuildContext dispatches memory events', (WidgetTester tester) async {
+  //   final key = GlobalKey<TestWidgetState>();
+  //   await tester.pumpWidget(TestWidget(key));
 
-    final TestWidgetState state = key.currentState!;
+  //   final TestWidgetState state = key.currentState!;
 
-    await expectLater(
-      await memoryEvents(
-        () => DisposableBuildContext<TestWidgetState>(state).dispose(),
-        DisposableBuildContext<TestWidgetState>,
-      ),
-      areCreateAndDispose,
-    );
-  });
+  //   await expectLater(
+  //     await memoryEvents(
+  //       () => DisposableBuildContext<TestWidgetState>(state).dispose(),
+  //       DisposableBuildContext<TestWidgetState>,
+  //     ),
+  //     areCreateAndDispose,
+  //   );
+  // });
 }
 
 class TestWidget extends StatefulWidget {

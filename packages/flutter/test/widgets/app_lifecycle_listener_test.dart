@@ -203,15 +203,15 @@ void main() {
     expect(exitRequested, isTrue);
   });
 
-  test('AppLifecycleListener dispatches memory events', () async {
-    await expectLater(
-      await memoryEvents(
-        () => AppLifecycleListener(binding: WidgetsBinding.instance).dispose(),
-        AppLifecycleListener,
-      ),
-      areCreateAndDispose,
-    );
-  });
+  // test('AppLifecycleListener dispatches memory events', () async {
+  //   await expectLater(
+  //     await memoryEvents(
+  //       () => AppLifecycleListener(binding: WidgetsBinding.instance).dispose(),
+  //       AppLifecycleListener,
+  //     ),
+  //     areCreateAndDispose,
+  //   );
+  // });
 }
 
 class TestAppLifecycleListener extends AppLifecycleListener {

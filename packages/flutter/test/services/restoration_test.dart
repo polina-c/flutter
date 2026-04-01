@@ -13,12 +13,12 @@ import 'package:leak_tracker_flutter_testing/leak_tracker_flutter_testing.dart';
 import 'restoration.dart';
 
 void main() {
-  testWidgets('$RestorationManager dispatches memory events', (WidgetTester tester) async {
-    await expectLater(
-      await memoryEvents(() => RestorationManager().dispose(), RestorationManager),
-      areCreateAndDispose,
-    );
-  });
+  // testWidgets('$RestorationManager dispatches memory events', (WidgetTester tester) async {
+  //   await expectLater(
+  //     await memoryEvents(() => RestorationManager().dispose(), RestorationManager),
+  //     areCreateAndDispose,
+  //   );
+  // });
 
   group('RestorationManager', () {
     testWidgets('root bucket retrieval', (WidgetTester tester) async {

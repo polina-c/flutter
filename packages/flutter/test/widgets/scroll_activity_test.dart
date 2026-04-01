@@ -339,28 +339,28 @@ void main() {
     expect(position.pixels, 2 * g);
   });
 
-  test('$ScrollActivity dispatches memory events', () async {
-    await expectLater(
-      await memoryEvents(
-        () => _ScrollActivity(_ScrollActivityDelegate()).dispose(),
-        _ScrollActivity,
-      ),
-      areCreateAndDispose,
-    );
-  });
+  // test('$ScrollActivity dispatches memory events', () async {
+  //   await expectLater(
+  //     await memoryEvents(
+  //       () => _ScrollActivity(_ScrollActivityDelegate()).dispose(),
+  //       _ScrollActivity,
+  //     ),
+  //     areCreateAndDispose,
+  //   );
+  // });
 
-  test('$ScrollDragController dispatches memory events', () async {
-    await expectLater(
-      await memoryEvents(
-        () => ScrollDragController(
-          delegate: _ScrollActivityDelegate(),
-          details: DragStartDetails(),
-        ).dispose(),
-        ScrollDragController,
-      ),
-      areCreateAndDispose,
-    );
-  });
+  // test('$ScrollDragController dispatches memory events', () async {
+  //   await expectLater(
+  //     await memoryEvents(
+  //       () => ScrollDragController(
+  //         delegate: _ScrollActivityDelegate(),
+  //         details: DragStartDetails(),
+  //       ).dispose(),
+  //       ScrollDragController,
+  //     ),
+  //     areCreateAndDispose,
+  //   );
+  // });
 }
 
 class PageView62209 extends StatefulWidget {

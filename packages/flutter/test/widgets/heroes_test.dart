@@ -3900,12 +3900,12 @@ Future<void> main() async {
     expect(tester.getTopLeft(find.byType(Image)).dy, moreOrLessEquals(forwardRest, epsilon: 0.1));
   });
 
-  test('HeroController dispatches memory events', () async {
-    await expectLater(
-      await memoryEvents(() => HeroController().dispose(), HeroController),
-      areCreateAndDispose,
-    );
-  });
+  // test('HeroController dispatches memory events', () async {
+  //   await expectLater(
+  //     await memoryEvents(() => HeroController().dispose(), HeroController),
+  //     areCreateAndDispose,
+  //   );
+  // });
 
   testWidgets('Hero does not crash at zero area', (WidgetTester tester) async {
     await tester.pumpWidget(

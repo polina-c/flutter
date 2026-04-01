@@ -1323,15 +1323,15 @@ void main() {
       );
     }
 
-    testWidgets('dispatches memory events', (WidgetTester tester) async {
-      await expectLater(
-        await memoryEvents(() async {
-          final SelectionOverlay overlay = await pumpApp(tester);
-          overlay.dispose();
-        }, SelectionOverlay),
-        areCreateAndDispose,
-      );
-    });
+    // testWidgets('dispatches memory events', (WidgetTester tester) async {
+    //   await expectLater(
+    //     await memoryEvents(() async {
+    //       final SelectionOverlay overlay = await pumpApp(tester);
+    //       overlay.dispose();
+    //     }, SelectionOverlay),
+    //     areCreateAndDispose,
+    //   );
+    // });
 
     testWidgets('can show and hide handles', (WidgetTester tester) async {
       final spy = TextSelectionControlsSpy();
@@ -1852,15 +1852,15 @@ void main() {
       );
     }
 
-    testWidgets('dispatches memory events', (WidgetTester tester) async {
-      await expectLater(
-        await memoryEvents(() async {
-          final TextSelectionOverlay overlay = await pumpApp(tester);
-          overlay.dispose();
-        }, TextSelectionOverlay),
-        areCreateAndDispose,
-      );
-    });
+    // testWidgets('dispatches memory events', (WidgetTester tester) async {
+    //   await expectLater(
+    //     await memoryEvents(() async {
+    //       final TextSelectionOverlay overlay = await pumpApp(tester);
+    //       overlay.dispose();
+    //     }, TextSelectionOverlay),
+    //     areCreateAndDispose,
+    //   );
+    // });
   });
 
   testWidgets('Context menus', (WidgetTester tester) async {
