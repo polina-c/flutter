@@ -10,9 +10,6 @@ void configureErrorReportingInUiPrimitives() {
 
 class _FlutterErrorReporter implements FrameworkErrorReporter {
   @override
-  Error error(String message) => FlutterError(message);
-
-  @override
   void report(FrameworkErrorDetails details) {
     final Type? type = details.dispatchingObject?.runtimeType;
     FlutterError.reportError(
@@ -30,5 +27,10 @@ class _FlutterErrorReporter implements FrameworkErrorReporter {
         context: ErrorDescription('while dispatching notifications for $type'),
       ),
     );
+  }
+
+  @override
+  Error createError(String message) {
+    return FlutterError(message);
   }
 }
